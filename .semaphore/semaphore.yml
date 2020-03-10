@@ -29,4 +29,5 @@ blocks:
             - checkout
             - nvm use
             - cache restore
+            - yarn install
             - yarn pretest
