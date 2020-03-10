@@ -1,0 +1,30 @@
+version: v1.0
+name: Build and test @npolar/fetch-api
+
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+auto_cancel:
+  running:
+    when: "true"
+
+blocks:
+  - name: Install dependencies
+    task:
+      jobs:
+        - name: install and cache
+          commands:
+            - checkout
+            - nvm use
+            - cache restore
+            - yarn install
+            - cache store
+  - name: Run tests
+    task:
+      jobs:
+        - name: test
+          commands:
+            - cache restore
+            - yarn pretest

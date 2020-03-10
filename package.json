@@ -1,0 +1,17 @@
+{
+  "name": "@npolar/fetch-api",
+  "type": "module",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "ES2019 fetch helpers for accessing the [NPOLAR API](https://api.npolar.no/)",
+  "devDependencies": {
+    "eslint": "*",
+    "prettier": "*"
+  },
+  "dependencies": {},
+  "scripts": {
+    "prettier:check": "yarn run prettier src/**.js -c",
+    "eslint": "./node_modules/.bin/eslint src",
+    "pretest": "yarn run prettier:check && yarn run eslint"
+  }
+}
