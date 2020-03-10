@@ -26,5 +26,7 @@ blocks:
       jobs:
         - name: test
           commands:
+            - checkout
+            - nvm use
             - cache restore
             - yarn pretest
