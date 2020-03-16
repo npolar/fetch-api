@@ -1,6 +1,6 @@
 import base from "../base.js";
 import { forceNpolarIfDomainIsMissing } from "./authenticate.js";
-
+import { emitFetchError } from "../../error.js";
 export const onetimeURI = new URL("/user/onetime", base).href;
 
 const linkURL = (location, now = new Date().toJSON()) =>
@@ -16,10 +16,15 @@ export async function onetime({
   email,
   link = linkURL(document.location),
   uri = onetimeURI,
-  method = "POST"
-}) {
+  method = "POST",
+  host = window
+} = {}) {
   email = forceNpolarIfDomainIsMissing(email);
   const body = stringify({ email, link });
-  return fetch(uri, { method, body });
+  const r = await fetch(uri, { method, body });
+  if (!r.ok) {
+    emitFetchError({ response: r, host });
+  }
+  return r;
 }
 // Beware of weird status: {"status":500,"http_message":"Internal Server Error","error":"User Not found"}

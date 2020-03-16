@@ -1,19 +1,22 @@
 // Thanks MDN :)
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Processing_a_text_file_line_by_line
-export async function* fetchSplit(url, { parse = JSON.parse } = {}) {
+export async function* fetchSplit(
+  url,
+  { parse = JSON.parse, host = window } = {}
+) {
   const re = /\n|\r|\r\n/g;
   const utf8Decoder = new TextDecoder("utf-8");
-  let response = await fetch(url);
+  const response = await fetch(url);
 
   if (!response.ok) {
-    throw "HTTP Error";
+    emitFetchError({ response, host });
+    return response;
   }
 
   let reader = response.body.getReader();
   let { value: chunk, done: readerDone } = await reader.read();
   chunk = chunk ? utf8Decoder.decode(chunk) : "";
   let startIndex = 0;
-  //let result;
 
   for (;;) {
     let result = re.exec(chunk);

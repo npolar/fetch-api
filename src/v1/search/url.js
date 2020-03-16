@@ -27,12 +27,14 @@ export const searchURL = (params, { config = searchConfig } = {}) => {
     url.searchParams.set("fields", fields);
   }
   for (const [k, v] of filters) {
-    console.log(`FILTER ${k}=${v}`);
-    // @todo only set filter if v !== undefined ?
-    url.searchParams.set(`filter-${k}`, v);
+    if (v !== undefined) {
+      url.searchParams.set(`filter-${k}`, v);
+    }
   }
   for (const [k, v] of not) {
-    console.log(`NOT ${k}=${v}`);
+    if (v !== undefined) {
+      url.searchParams.set(`not-${k}`, v);
+    }
   }
   return url;
 };

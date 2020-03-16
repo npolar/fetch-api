@@ -1,6 +1,7 @@
-console.warn("FETCH-API, yay");
 import base from "../base.js";
 import { encode as base64urlencode } from "../../base64url/exports.js";
+import { emitFetchError } from "../../error.js";
+
 export const authenticateURI = new URL("/user/authenticate", base).href;
 
 export const basicAuthorization = (username, password) =>
@@ -16,12 +17,24 @@ export const forceNpolarIfDomainIsMissing = email => {
   return email;
 };
 
-export async function authenticate({ email, password, jwt } = {}) {
+export async function authenticate({
+  email,
+  password,
+  jwt,
+  host = window
+} = {}) {
+  let r;
   if (email && email.length && password && password.length) {
-    return signin(email, password);
+    r = await signin(email, password);
+  } else if (jwt) {
+    r = await refresh(jwt);
   } else {
-    return refresh(jwt);
+    throw "No credentials passed";
   }
+  if (!r.ok) {
+    emitFetchError({ response: r, host });
+  }
+  return r;
 }
 
 export async function refresh(jwt) {
@@ -31,7 +44,7 @@ export async function refresh(jwt) {
   return fetch(authenticateURI, { headers });
 }
 
-export async function signin(username, password) {
+export async function signin(username, password, {} = {}) {
   username = String(username).trim();
   password = String(password).trim();
   if (username.length > 0 && password.length > 0) {
