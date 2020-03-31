@@ -1,15 +1,12 @@
 // Thanks MDN :)
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Processing_a_text_file_line_by_line
-import { emitFetchError } from "./error.js";
-export async function* fetchSplit(
-  url,
-  { parse = JSON.parse, host = window } = {}
-) {
+import { emitFetchError } from "./event/error.js";
+export async function* fetchSplit(url, { parse = JSON.parse, host } = {}) {
   const re = /\n|\r|\r\n/g;
   const utf8Decoder = new TextDecoder("utf-8");
   const response = await fetch(url);
 
-  if (!response.ok) {
+  if (!response || !response.ok) {
     emitFetchError({ response, host });
     return response;
   }

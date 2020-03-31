@@ -1,6 +1,6 @@
 import base from "../base.js";
 import { forceNpolarIfDomainIsMissing } from "./authenticate.js";
-import { emitFetchError } from "../../error.js";
+import { emitFetchError } from "../../event/error.js";
 export const onetimeURI = new URL("/user/onetime", base).href;
 
 const linkURL = (location, now = new Date().toJSON()) =>

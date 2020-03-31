@@ -16,7 +16,6 @@
     "semi": ["error", "always"],
     "eqeqeq": "error",
     "block-scoped-var": "error",
-    "consistent-return": "error",
     "no-implicit-globals": "error",
     "no-implied-eval": "error",
     "no-self-compare": "error",
