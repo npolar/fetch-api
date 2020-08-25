@@ -7,17 +7,22 @@ const { stringify } = JSON;
 
 const APPLICATION_JSON = "application/json";
 
+// @todo harmonise with searchURL
+// let url = new URL(endpoint, base);
 export const request = async ({
   path,
-  base = BASE,
+  endpoint = "/",
+  base = new URL(endpoint, BASE).href,
   url = new URL(`${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`).href,
   method = "GET",
   headers = new Headers({
     "content-type": APPLICATION_JSON,
     accept: APPLICATION_JSON
   }),
+
   payload,
   jwt,
+  suppressFailure = false, // ie request not performed / fetch throws
   sendJWT = ({ method, url }) => url && !/get|head/i.test(method),
   host
 } = {}) => {
@@ -30,9 +35,17 @@ export const request = async ({
     method,
     headers,
     body: stringify(payload)
+  }).catch(() => {
+    if (host && !suppressFailure) {
+      emitFetchError({
+        response: { status: 0, statusText: "Fetch failed", url },
+        method,
+        host
+      });
+    }
   });
-  if (host) {
-    if (!response || !response.ok) {
+  if (host && response) {
+    if (!response.ok) {
       emitFetchError({ response, method, host });
     } else if (/put|post|delete/i.test(method)) {
       emitFetchOK({ response, method, host });
