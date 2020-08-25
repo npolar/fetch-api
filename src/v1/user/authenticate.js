@@ -2,7 +2,7 @@ import base from "../base.js";
 import { request as get } from "../request.js";
 import { encode as base64urlencode } from "../../base64url/exports.js";
 import { emit } from "../../event/emit.js";
-import { decode, payload } from "../../jwt.js";
+import { payload } from "../../jwt.js";
 
 const SIGNIN_EVENT = "@npolar/sign-in";
 

@@ -35,7 +35,7 @@ export const request = async ({
     method,
     headers,
     body: stringify(payload)
-  }).catch(error => {
+  }).catch(() => {
     if (host && !suppressFailure) {
       emitFetchError({
         response: { status: 0, statusText: "Fetch failed", url },

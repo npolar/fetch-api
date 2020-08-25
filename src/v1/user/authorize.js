@@ -1,20 +1,4 @@
 import { request } from "../request.js";
-//   path,
-//   endpoint = "/",
-//   base = new URL(endpoint, BASE).href,
-//   url = new URL(`${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`).href,
-//   method = "GET",
-//   headers,
-//   // headers = new Headers({
-//   //   "content-type": APPLICATION_JSON,
-//   //   accept: APPLICATION_JSON
-//   // }),
-//   payload,
-//   jwt,
-//   suppressFailure = false, // ie request not performed / fetch throws
-//   sendJWT = ({ method, url }) => url && !/get|head/i.test(method),
-//   host
-// } = {}) => {
 
 // curl -nXPOST https://api.npolar.no/user/authorize -d '{"system": "https://api.npolar.no/placename"}'
 // {"status":200,"rights":["create","read","update","delete"]}
@@ -22,8 +6,8 @@ import { request } from "../request.js";
 export const authorize = async ({
   system,
   jwt,
-  email,
-  password,
+  //email,
+  //password,
   host
 } = {}) => {
   const path = "/user/authorize";

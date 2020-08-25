@@ -1,7 +1,8 @@
-import v1base from "../base.js";
+// experimental!
+//import v1base from "../base.js";
 import { request } from "../request.js";
 
-const getBase = (/*{ version }*/) => v1base;
+//const getBase = (/*{ version }*/) => v1base;
 
 const emit = ({ host, name, detail }) =>
   host.dispatchEvent(
@@ -14,13 +15,13 @@ export const get = async ({
   id,
   endpoint,
   store,
-  host,
-  version = 1,
-  base = getBase({ version })
+  host
+  //version = 1
+  //base = getBase({ version })
 } = {}) => {
   let v1, _rev;
-  const path = `/${endpoint}/${id}`.replace(/\/{2}/g, "/");
-  const url = new URL(path, base);
+  //const path = `/${endpoint}/${id}`.replace(/\/{2}/g, "/");
+  //const url = new URL(path, base);
 
   // "Try" to get from store
   try {
