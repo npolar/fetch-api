@@ -1,9 +1,16 @@
-export const emit = ({ host, name, detail }) => {
+export const emit = ({
+  host,
+  name,
+  detail,
+  bubbles = true,
+  composed = true,
+  cancelable = false
+}) => {
   const event = new CustomEvent(name, {
     detail,
-    bubbles: true,
-    composed: true,
-    cancelable: true
+    bubbles,
+    composed,
+    cancelable
   });
   host.dispatchEvent(event);
 };

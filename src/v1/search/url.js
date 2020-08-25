@@ -7,13 +7,15 @@ export const searchURL = (params, { config = searchConfig } = {}) => {
     base,
     endpoint,
     q,
-    format,
-    variant,
+    format = "json",
+    variant = "feed",
     limit,
     sort,
     fields,
+    facets,
     filters = new Map(),
-    not = new Map()
+    not = new Map(),
+    ...rest
   } = params;
   let url = new URL(endpoint, base);
   url.searchParams.set("q", q || "");
@@ -26,6 +28,9 @@ export const searchURL = (params, { config = searchConfig } = {}) => {
   if (fields) {
     url.searchParams.set("fields", fields);
   }
+  if (facets) {
+    url.searchParams.set("facets", facets);
+  }
   for (const [k, v] of filters) {
     if (v !== undefined) {
       url.searchParams.set(`filter-${k}`, v);
@@ -34,6 +39,11 @@ export const searchURL = (params, { config = searchConfig } = {}) => {
   for (const [k, v] of not) {
     if (v !== undefined) {
       url.searchParams.set(`not-${k}`, v);
+    }
+  }
+  for (const [k, v] of Object.entries(rest)) {
+    if (v !== undefined) {
+      url.searchParams.set(k, v);
     }
   }
   return url;
